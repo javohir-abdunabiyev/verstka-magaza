@@ -338,7 +338,10 @@ for(let i = 0; i < 4; i++) {
         const list_divs = document.createElement("div");
         list_divs.classList.add("list_flex")
 
-        menu_list.append(list_divs)
+        const hr = document.createElement("hr")
+        hr.classList.add("hr")
+
+        menu_list.append(list_divs, hr)
 
         const submit = document.createElement("input")
         submit.type = "checkbox"
@@ -379,6 +382,8 @@ for(let i = 0; i < 4; i++) {
         plus.value = "+"
         plus.classList.add("btn_width")
 
+        
+
 
         div_two.append(seller, counter)
 
@@ -406,14 +411,33 @@ for(let i = 0; i < 4; i++) {
         list_divs.append(submit, list_img, about, remove_price)
 
 
+        let maxCount = 5
+        let minCount = 1
+
         plus.onclick = () => {
-            amount.innerText++
+            if(minCount < maxCount) {
+                minCount++;
+                amount.textContent = minCount;
+            }
+            if(minCount === maxCount) {
+                plus.disabled = true
+            }
+            minus.disabled = false
         }
 
         minus.onclick = () => {
-            amount.innerText--
+            if(minCount > 1) {
+                minCount--;
+                amount.textContent = minCount;
+            }
+            if(minCount === 1) {
+                minus.disabled = true;
+            }
+            plus.disabled = false
+        }
+
+        remove.onclick = () => {
+            list_divs.style.display = "none"
+            hr.style.display = "none"
         }
 }
-
-
-br()
