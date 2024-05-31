@@ -500,6 +500,5 @@ function reloadTwo(arr2, place, btn) {
     }
 
     vsego_price.innerHTML = total_price
-    total.innerHTML = vsego_count.innerHTML
 }
 
