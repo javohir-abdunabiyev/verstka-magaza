@@ -226,6 +226,7 @@ const container = document.querySelector(".container")
 const total = document.querySelector("#total")
 const menu_btn = document.querySelector("[data-menu]")
 const menu = document.querySelector("aside")
+menu.classList.add("scroll")
 const close_menu = document.querySelector('.close_menu')
 
 
@@ -324,6 +325,7 @@ function reload(arr, place) {
 
             }
             total.innerHTML = cart.length
+            reloadTwo(cart, menu_list, button)
         }
     }
 }
@@ -332,16 +334,46 @@ function reload(arr, place) {
 
 const menu_list = document.querySelector('.menu-list');
 
+const div_for_all_prices_counts = document.createElement("div")
+div_for_all_prices_counts.classList.add("for_count")
+const all_prices_counts = document.createElement("div")
 
+const all_count = document.createElement("div")
+all_count.classList.add("all_prcount")
+const div_vsego = document.createElement("div")
+div_vsego.innerHTML = "Всего"
+const vsego_count = document.createElement("div")
 
-for(let i = 0; i < 4; i++) {
+const all_price = document.createElement("div")
+all_price.classList.add("all_prcount")
+const div_prices = document.createElement("div")
+div_prices.innerHTML = "Всего цена"
+const vsego_price = document.createElement("div")
+
+all_price.append(div_prices, vsego_price)
+
+all_count.append(div_vsego, vsego_count)
+
+all_prices_counts.append(all_count, all_price)
+
+div_for_all_prices_counts.append(all_prices_counts)
+
+menu.append(div_for_all_prices_counts)
+
+function reloadTwo(arr2, place, btn) {
+    place.innerHTML = ''
+    let total_price = 0
+    
+    vsego_count.innerHTML = arr2.length    
+
+    for(let item of arr2) {
+        total_price += item.price
         const list_divs = document.createElement("div");
         list_divs.classList.add("list_flex")
 
         const hr = document.createElement("hr")
         hr.classList.add("hr")
 
-        menu_list.append(list_divs, hr)
 
         const submit = document.createElement("input")
         submit.type = "checkbox"
@@ -350,7 +382,7 @@ for(let i = 0; i < 4; i++) {
 
         const list_img = document.createElement("img");
         list_img.className = "list_img_width"
-        list_img.src = "img.jpg"
+        list_img.src = item.image
         list_img.alt = "img.jpg"
         const about = document.createElement("div");
 
@@ -358,13 +390,13 @@ for(let i = 0; i < 4; i++) {
         const cart_txt = document.createElement("div")
         cart_txt.classList.add("p")
 
-        cart_txt.innerText = "Шампунь для волос Garnier Fructis SOS, восстановление, 400 мл"
+        cart_txt.innerText = item.title
         const div_two = document.createElement("div");
         div_two.classList.add("flex_space")
         about.append(cart_txt, div_two)
 
         const seller = document.createElement("div");
-        seller.innerText = "Продавец: Garnier"
+        seller.innerText = item.category
 
         const counter = document.createElement("div");
 
@@ -399,17 +431,24 @@ for(let i = 0; i < 4; i++) {
         remove.value = "Удалить"
         remove.classList.add("remove_btn")
 
+        
 
         const price = document.createElement("span");
-        price.innerText = "25 000"
+        price.innerText = item.price
         const sum = document.createElement("span");
-        sum.innerText = "сум"
+        sum.innerText = "$"
+
+
+        
 
         remove_price.append(remove, br, price, sum)
 
 
         list_divs.append(submit, list_img, about, remove_price)
 
+        menu_list.append(list_divs, hr)
+
+        
 
         let maxCount = 5
         let minCount = 1
@@ -418,6 +457,9 @@ for(let i = 0; i < 4; i++) {
             if(minCount < maxCount) {
                 minCount++;
                 amount.textContent = minCount;
+                price.innerHTML = "$" + (item.price * minCount).toFixed(2)
+                total_price += item.price
+                vsego_price.innerHTML = (total_price).toFixed(2)
             }
             if(minCount === maxCount) {
                 plus.disabled = true
@@ -429,6 +471,9 @@ for(let i = 0; i < 4; i++) {
             if(minCount > 1) {
                 minCount--;
                 amount.textContent = minCount;
+                price.innerHTML = "$" + (item.price * minCount).toFixed(2)
+                total_price -= item.price
+                vsego_price.innerHTML = (total_price).toFixed(2)
             }
             if(minCount === 1) {
                 minus.disabled = true;
@@ -440,4 +485,23 @@ for(let i = 0; i < 4; i++) {
             list_divs.style.display = "none"
             hr.style.display = "none"
         }
+
+
+        remove.onclick = () => {
+            let idx = cart.findIndex(el => el.id === item.id)
+            if(idx !== -1) {
+                cart.splice(idx, 1)
+                reloadTwo(cart, menu_list)
+                btn.classList.remove("blue")
+                btn.innerHTML = "В избранное"
+            }
+        }
+
+
+    }
+
+    vsego_price.innerHTML = total_price
+
+
 }
+
