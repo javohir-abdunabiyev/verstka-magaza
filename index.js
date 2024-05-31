@@ -324,7 +324,6 @@ function reload(arr, place) {
                 
 
             }
-            total.innerHTML = cart.length
             reloadTwo(cart, menu_list, button)
         }
     }
@@ -501,7 +500,6 @@ function reloadTwo(arr2, place, btn) {
     }
 
     vsego_price.innerHTML = total_price
-
 
 }
 
