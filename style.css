@@ -53,6 +53,7 @@ header{
 }
 
 button {
+    border: 0;
     padding: 17px 100px;
     border-radius: 12px;
     margin-top: 20px;
