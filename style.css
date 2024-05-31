@@ -102,6 +102,7 @@ h4 {
 
 
 .blue {
+    border: 0;
     color: white !important;
     background: blue !important;
 }
